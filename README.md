@@ -34,5 +34,4 @@ model_1 = nn.Sequential(
 В качестве оптимизатора был выбран AdamW. 
 Далее представлены результаты обучения первой модели в виде графика:
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab3/loss_lab3.png)
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab3/accu_lab3.png)
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab3/conf_lab3.png)
