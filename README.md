@@ -3,7 +3,7 @@
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/dataset-cover.png)
 
 Для работы был выбран датасет Doom-Crossing из 1600 изображений разделенный на тестовую и обучаюшую выборку в соотношении 8\2.
-Было разработано две архитектуры перцептрона на основе nn.Sequentional:
+Было разработано две архитектуры сверточной сети на основе nn.Sequentional:
 
 ```
 model_1 = nn.Sequential(
