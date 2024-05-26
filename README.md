@@ -89,13 +89,13 @@ A.HorizontalFlip(p=.5)
 '''
 это позволило немного увеличить датасет.
 Далее представлены результаты обучения первой модели в виде графика:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/plots_1.png)
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/plots_1.png)
 
 Далее представлены результаты обучения второй модели в виде графика:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/plots_2.png)
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/plots_2.png)
 
 Далее можно увидеть confusion matrix первой и второй модели
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/conf_1.png)
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/conf_2.png)
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/conf_1.png)
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/conf_2.png)
 
 Интересной особенностью является то, что первая модель лучше справляется с animal crossing, а вторая с doom)))
