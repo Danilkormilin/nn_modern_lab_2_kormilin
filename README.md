@@ -1,28 +1,10 @@
-# Лабораторная работа 2
-## Тестирование PyTorch
-Для выпоонения работы была выбрана библиотека PyTorch. Для этого была создана модель перцептрона на основе класса nn.Sequentional со следующей архитектурой:
-
-```
-model = nn.Sequential(
-    nn.Linear(784, 50),
-    nn.ReLU(),
-    nn.Linear(50, 25),
-    nn.ReLU(),
-    nn.Linear(25, 10),
-    nn.Sigmoid()
-)
-```
-
-Результатом стала точность в 96.8% 
-
-Результат обучения в виде графика:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/loss_accu.png)
+# Лабораторная работа 4
 
 ## Выполнение работы на датесете [Doom-Crossing](https://www.kaggle.com/datasets/andrewmvd/doom-crossing)
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/dataset-cover.png)
 
 Для работы был выбран датасет Doom-Crossing из 400 изображений разделенный на тестовую и обучаюшую выборку в соотношении 8\2.
-Было разработано две архитектуры перцептрона на основе nn.Sequentional:
+Было разработано две архитектуры сверточных нейронных сетей с помощью nn.Sequentional:
 
 <table>
     <thead>
@@ -36,55 +18,84 @@ model = nn.Sequential(
         <tr>
             <td align="center">Architecture</td>
             <td><code>model_1 = nn.Sequential(
-  nn.Linear(kImageSizes[0] * kImageSizes[1] * 3, 400),
-  nn.ReLU(),
-  nn.Linear(400, 150),
-  nn.ReLU(),
-  nn.Linear(150, 50),
-  nn.ReLU(),
-  nn.Linear(50, 2),
-  nn.Sigmoid()
+    nn.Conv2d(3, 8, (3,3), 1),
+    nn.Conv2d(8, 8, (3,3), 1),
+    nn.AvgPool2d((2,2), 2),
+    nn.Conv2d(8, 16, (3,3), 1),
+    nn.Conv2d(16, 16, (3,3), 1),
+    nn.AvgPool2d((2,2), 2),
+    nn.Conv2d(16, 32, (3,3), 1),
+    nn.Conv2d(32, 32, (3,3), 1),
+    nn.AvgPool2d((2,2), 2),
+    nn.Conv2d(32, 32, (3,3), 1),
+    nn.Conv2d(32, 32, (3,3), 1),
+    nn.AvgPool2d((2,2), 2),
+    nn.Conv2d(32, 32, (3,3), 1),
+    nn.Conv2d(32, 64, (3,3), 1),
+    nn.Conv2d(64, 128, (3,3), 1),
+    nn.MaxPool2d((2,2), 2),
+    nn.Flatten(),
+    nn.Linear(128, 2),
+    nn.Sigmoid()
 ).to(device)</code>code></td>
             <td><code>model_2 = nn.Sequential(
-    nn.Linear(kImageSizes[0] * kImageSizes[1] * 3, 1000),
+    nn.Conv2d(3, 8, (3,3), 1),
+    nn.Conv2d(8, 8, (3,3), 1),
     nn.ReLU(),
-    nn.Linear(1000, 450),
+    nn.BatchNorm2d(8),
+    nn.AvgPool2d((2,2), 2),
+    nn.Conv2d(8, 16, (3,3), 1),
+    nn.Conv2d(16, 16, (3,3), 1),
     nn.ReLU(),
-    nn.Linear(450, 450),
+    nn.BatchNorm2d(16),
+    nn.AvgPool2d((2,2), 2),
+    nn.Conv2d(16, 32, (3,3), 1),
+    nn.Conv2d(32, 32, (3,3), 1),
     nn.ReLU(),
-    nn.Linear(450, 150),
-    nn.ReLU(),
-    nn.Linear(150, 100),
-    nn.ReLU(),
-    nn.Linear(100, 100),
-    nn.ReLU(),
-    nn.Linear(100, 50),
-    nn.ReLU(),
-    nn.Linear(50, 2),
+    nn.BatchNorm2d(32),
+    nn.AvgPool2d((2,2), 2),
+    nn.Flatten(),
+    nn.Linear(14112, 512),
+    nn.Linear(512, 2),
     nn.Sigmoid()
 ).to(device)</code></td>
         </tr>
         <tr>
             <td align="center">Best Accuracy</td>
-            <td align="center">70,3%</td>
-            <td align="center">74,8%</td>
+            <td align="center">72,8%</td>
+            <td align="center">76,8%</td>
         </tr>
         <tr>
             <td align="center">LearningRate</td>
-            <td align="center">0.0001</td>
-            <td align="center">0.0001-0.00001-0.000002</td>
+            <td align="center">0.002 - на старте</td>
+            <td align="center">0.002 - на старте</td>
         </tr>
         <tr>
             <td align="center">Number of epochs</td>
-            <td align="center">10</td>
-            <td align="center">9 - 10 - 10</td>
+            <td align="center">100</td>
+            <td align="center">100</td>
         </tr>
     </tbody>
 </table>
 
-В качестве оптимизатора был выбран AdamW. 
+В качестве оптимизатора был выбран AdamW.
+##Примененные улучшения
+В качестве scheduler'а был выбран ReduceLROnPlateau.
+Также для данной работы были выбраны следующие аугментации:
+'''
+A.Perspective(scale=(0.05, 0.3), p=1.),
+A.Affine(rotate=25, scale=(0.9, 0.9),  p=1.),
+A.HorizontalFlip(p=.5)
+'''
+это позволило немного увеличить датасет.
 Далее представлены результаты обучения первой модели в виде графика:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/1_nn.png)
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/plots_1.png)
 
-Вторая модель обучалась несколько раз с понижением LR:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/2_nn.png)
+Далее представлены результаты обучения второй модели в виде графика:
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/plots_2.png)
+
+Далее можно увидеть confusion matrix первой и второй модели
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/conf_1.png)
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/conf_2.png)
+
+Интересной особенностью является то, что первая модель лучше справляется с animal crossing, а вторая с doom)))
