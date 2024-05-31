@@ -35,3 +35,8 @@ model_1 = nn.Sequential(
 Далее представлены результаты обучения первой модели в виде графика:
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab3/loss_lab3.png)
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab3/conf_lab3.png)
+
+Метрики
+Precision: 0.676
+Recall: 0.770
+Accuracy: 0.700
