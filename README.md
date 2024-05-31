@@ -99,3 +99,15 @@ A.HorizontalFlip(p=.5)
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/conf_2.png)
 
 Интересной особенностью является то, что первая модель лучше справляется с animal crossing, а вторая с doom)))
+
+Метрики
+
+Модель 1:
+Precision: 0.703
+Recall: 0.803
+Accuracy: 0.732
+
+Модель 2:
+Precision: 0.784
+Recall: 0.737
+Accuracy: 0.767
