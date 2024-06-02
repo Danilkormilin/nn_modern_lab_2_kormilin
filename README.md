@@ -1,85 +1,24 @@
-# Лабораторная работа 4
+# Лабораторная работа 5
 
 ## Выполнение работы на датесете [Doom-Crossing](https://www.kaggle.com/datasets/andrewmvd/doom-crossing)
 ![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/main/dataset-cover.png)
 
 Для работы был выбран датасет Doom-Crossing из 400 изображений разделенный на тестовую и обучаюшую выборку в соотношении 8\2.
-Было разработано две архитектуры сверточных нейронных сетей с помощью nn.Sequentional:
+Была использована предобученая сеть resnet50 с измененной полносвязной частью на следующий блок:
 
-<table>
-    <thead>
-        <tr>
-            <th>-</th>
-            <th>Model 1</th>
-            <th>Model 2</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td align="center">Architecture</td>
-            <td><code>model_1 = nn.Sequential(
-    nn.Conv2d(3, 8, (3,3), 1),
-    nn.Conv2d(8, 8, (3,3), 1),
-    nn.AvgPool2d((2,2), 2),
-    nn.Conv2d(8, 16, (3,3), 1),
-    nn.Conv2d(16, 16, (3,3), 1),
-    nn.AvgPool2d((2,2), 2),
-    nn.Conv2d(16, 32, (3,3), 1),
-    nn.Conv2d(32, 32, (3,3), 1),
-    nn.AvgPool2d((2,2), 2),
-    nn.Conv2d(32, 32, (3,3), 1),
-    nn.Conv2d(32, 32, (3,3), 1),
-    nn.AvgPool2d((2,2), 2),
-    nn.Conv2d(32, 32, (3,3), 1),
-    nn.Conv2d(32, 64, (3,3), 1),
-    nn.Conv2d(64, 128, (3,3), 1),
-    nn.MaxPool2d((2,2), 2),
-    nn.Flatten(),
-    nn.Linear(128, 2),
-    nn.Sigmoid()
-).to(device)</code>code></td>
-            <td><code>model_2 = nn.Sequential(
-    nn.Conv2d(3, 8, (3,3), 1),
-    nn.Conv2d(8, 8, (3,3), 1),
-    nn.ReLU(),
-    nn.BatchNorm2d(8),
-    nn.AvgPool2d((2,2), 2),
-    nn.Conv2d(8, 16, (3,3), 1),
-    nn.Conv2d(16, 16, (3,3), 1),
-    nn.ReLU(),
-    nn.BatchNorm2d(16),
-    nn.AvgPool2d((2,2), 2),
-    nn.Conv2d(16, 32, (3,3), 1),
-    nn.Conv2d(32, 32, (3,3), 1),
-    nn.ReLU(),
-    nn.BatchNorm2d(32),
-    nn.AvgPool2d((2,2), 2),
-    nn.Flatten(),
-    nn.Linear(14112, 512),
-    nn.Linear(512, 2),
-    nn.Sigmoid()
-).to(device)</code></td>
-        </tr>
-        <tr>
-            <td align="center">Best Accuracy</td>
-            <td align="center">72,8%</td>
-            <td align="center">76,8%</td>
-        </tr>
-        <tr>
-            <td align="center">LearningRate</td>
-            <td align="center">0.002 - на старте</td>
-            <td align="center">0.002 - на старте</td>
-        </tr>
-        <tr>
-            <td align="center">Number of epochs</td>
-            <td align="center">100</td>
-            <td align="center">100</td>
-        </tr>
-    </tbody>
-</table>
+'''
+  (fc): Sequential(
+    (0): Linear(in_features=2048, out_features=512, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=512, out_features=64, bias=True)
+    (3): ReLU()
+    (4): Linear(in_features=64, out_features=2, bias=True)
+    (5): Sigmoid()
+  )
+'''
 
+Для обучения сам resnet был заборожен, по сути обучался только классификатор
 В качестве оптимизатора был выбран AdamW.
-##Примененные улучшения
 В качестве scheduler'а был выбран ReduceLROnPlateau.
 Также для данной работы были выбраны следующие аугментации:
 '''
@@ -88,26 +27,16 @@ A.Affine(rotate=25, scale=(0.9, 0.9),  p=1.),
 A.HorizontalFlip(p=.5)
 '''
 это позволило немного увеличить датасет.
-Далее представлены результаты обучения первой модели в виде графика:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/plots_1.png)
 
-Далее представлены результаты обучения второй модели в виде графика:
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/plots_2.png)
+Удалось добится точности в 85,6%!!! Это уже неплохо в сравнении с предыдущими попытками
+Далее представлены результаты обучения модели в виде графика:
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab5/loss_accu.png)
 
-Далее можно увидеть confusion matrix первой и второй модели
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/conf_1.png)
-![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab4/conf_2.png)
+Далее можно увидеть confusion matrix модели
+![Датасет](https://github.com/Danilkormilin/nn_modern_lab_2_kormilin/blob/lab5/conf.png)
 
-Интересной особенностью является то, что первая модель лучше справляется с animal crossing, а вторая с doom)))
 
 Метрики
-
-Модель 1:
-Precision: 0.703
-Recall: 0.803
-Accuracy: 0.732
-
-Модель 2:
-Precision: 0.784
-Recall: 0.737
-Accuracy: 0.767
+Precision: 0.8581081081081081
+Recall: 0.8355263157894737
+Accuracy: 0.85625
